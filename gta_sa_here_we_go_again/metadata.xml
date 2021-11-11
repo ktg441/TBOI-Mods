@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>GTA San Andreas: Here We Go Again</name>
+    <directory>gta_sa_here_we_go_again</directory>
+    <id>2652013552</id>
+    <description>In celebration of Grand Theft Auto: The Trilogy - The Definitive Edition [i](terrible name btw)[/i] releasing, I have created a mod that plays CJ's classic meme phrase from GTA San Andreas when starting/continuing a run.
+	
+[i]Ah shit, here we go again.[/i]
+
+[b]Known Issues:[/b]
+[*] Game may crash when loading first run after turning on mod while using steam cloud(is fine for subsequent times)
+	</description>
+    <version>1.1</version>
+    <visibility>Public</visibility>
+    <tag id="Sound Effects"/>
+</metadata>

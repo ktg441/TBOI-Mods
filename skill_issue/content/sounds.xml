@@ -1,0 +1,5 @@
+<sounds root="sfx/">
+	<sound name="LOSER_WHISPER"> <!-- Repentence will auto-generate IDs for new sounds -->
+		<sample weight="1" path="jerry_loser_whisper.wav" />
+	</sound>
+</sounds>

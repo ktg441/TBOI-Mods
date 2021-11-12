@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>Skill Issue</name>
+    <directory>skill_issue</directory>
+    <description>You know that damage you took?
+	
+Yeah that was [b]your[/b] fault.
+
+[b]Features:[/b]
+[*] Small chance that the game will berate your skill when you take damage (see screenshots)
+[*] If you listen closely, the game may call you a loser when you die :)
+
+Mod Picture credits to u/NortonTheMartian on Reddit
+Original link: [url]https://www.reddit.com/r/bindingofisaac/comments/ppzhsy/clearly_a_skill_issue/[/url]
+	</description>
+    <version>1.1</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Graphics"/>
+    <tag id="Sound Effects"/>
+</metadata>

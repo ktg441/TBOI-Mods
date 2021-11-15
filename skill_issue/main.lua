@@ -2,6 +2,7 @@
 --Global Variables/Helper Classes--
 -----------------------------------
 local modName = "Skill Issue"
+local json = require("json")
 
 SKILL_ISSUE_MOD = RegisterMod(modName, 1)
 SKILL_ISSUE_MOD.SFX = SFXManager()
@@ -12,9 +13,12 @@ SKILL_ISSUE_MOD.LOADED = false
 
 ----------------------------------
 
----------------------
+----------------------
 --Settings & Configs--
----------------------
+----------------------
+
+-- Memory for encoding in JSON
+SKILL_ISSUE_MOD.SAVE_STATE = {}
 
 -- Default % chances for various EntityTypes in the game
 SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS = {
@@ -77,7 +81,7 @@ end
 
 --Plays the sound calling Jerry a loser
 function SKILL_ISSUE_MOD:PlaySound(isGameOver)
-	if isGameOver == true then -- isGameOver flag is true when player dies
+	if isGameOver == true and SKILL_ISSUE_MOD.SOUND_SETTINGS["LoserSound"] == true then -- isGameOver flag is true when player dies
 		SKILL_ISSUE_MOD.SFX:Play(SKILL_ISSUE_MOD.WHISPER_SOUND, 6)
 	end
 end
@@ -90,9 +94,9 @@ end
 
 ----------------------
 
------------------------------
---Mod Config Menu functions--
------------------------------
+-----------------------------------------
+--Mod Config Menu functions & save data--
+-----------------------------------------
 
 --Sets up Mod Config menu options if mod is installed
 function SKILL_ISSUE_MOD:ModConfigInit()
@@ -142,17 +146,17 @@ function SKILL_ISSUE_MOD:ModConfigInit()
 					{
 						Type = ModConfigMenu.OptionType.NUMBER,
 						CurrentSetting = function ()
-							return SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[percentSettingName]
+							return SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)]
 						end,
 						Minimum = 0,
 						Maximum = 100,
 						Display = function()
-							return percentSettingName .. " % : " .. SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[percentSettingName]
+							return tostring(percentSettingName) .. " % : " .. SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)]
 						end,
 						OnChange = function(newVal)
-							SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[percentSettingName] = newVal
+							SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)] = newVal
 						end,
-						Info = {"Chance that the Skill Issue text will show up when hit by an item in the " .. percentSettingName .. " category."},
+						Info = {"Chance that the Skill Issue text will show up when hit by an item in the " .. tostring(percentSettingName) .. " category."},
 					}
 				)
 			end
@@ -162,7 +166,35 @@ function SKILL_ISSUE_MOD:ModConfigInit()
 	end
 end
 
------------------------------
+--Saves all option data in JSON format
+function SKILL_ISSUE_MOD:SaveGame()
+	SKILL_ISSUE_MOD.SAVE_STATE.ChanceSettings = {}
+	SKILL_ISSUE_MOD.SAVE_STATE.SoundSettings = {}
+	
+	for key, _ in pairs(SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS) do
+		SKILL_ISSUE_MOD.SAVE_STATE.ChanceSettings[tostring(key)] = SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[key]
+	end
+	for key, _ in pairs(SKILL_ISSUE_MOD.SOUND_SETTINGS) do
+		SKILL_ISSUE_MOD.SAVE_STATE.SoundSettings[tostring(key)] = SKILL_ISSUE_MOD.SOUND_SETTINGS[key]
+	end
+    SKILL_ISSUE_MOD:SaveData(json.encode(SKILL_ISSUE_MOD.SAVE_STATE))
+end
+
+--Loads all option data from JSON format
+function SKILL_ISSUE_MOD:OnGameStart(isSave)	
+    if SKILL_ISSUE_MOD:HasData() then	
+		SKILL_ISSUE_MOD.SAVE_STATE = json.decode(SKILL_ISSUE_MOD:LoadData())	
+		
+		for key, _ in pairs(SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS) do
+			SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(key)] = SKILL_ISSUE_MOD.SAVE_STATE.ChanceSettings[key]
+		end
+		for key, _ in pairs(SKILL_ISSUE_MOD.SOUND_SETTINGS) do
+			SKILL_ISSUE_MOD.SOUND_SETTINGS[tostring(key)] = SKILL_ISSUE_MOD.SAVE_STATE.SoundSettings[key]
+		end
+    end
+end
+
+-----------------------------------------
 
 --------------------
 --Helper Functions--
@@ -203,6 +235,8 @@ end
 --------------
 
 SKILL_ISSUE_MOD.FONT:Load("font/teammeatfont12.fnt")
+SKILL_ISSUE_MOD:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, SKILL_ISSUE_MOD.SaveGame)
+SKILL_ISSUE_MOD:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, SKILL_ISSUE_MOD.OnGameStart)
 SKILL_ISSUE_MOD:AddCallback(ModCallbacks.MC_POST_UPDATE,SKILL_ISSUE_MOD.ModConfigInit)
 SKILL_ISSUE_MOD:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, SKILL_ISSUE_MOD.OnDamage);
 SKILL_ISSUE_MOD:AddCallback(ModCallbacks.MC_POST_GAME_END, SKILL_ISSUE_MOD.PlaySound);

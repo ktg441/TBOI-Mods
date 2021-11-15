@@ -96,9 +96,9 @@ end
 
 ----------------------
 
------------------------------------------
---Mod Config Menu functions & save data--
------------------------------------------
+-------------------
+--Mod Config Menu--
+-------------------
 
 --Sets up Mod Config menu options if mod is installed
 function SKILL_ISSUE_MOD:ModConfigInit()
@@ -177,6 +177,12 @@ function SKILL_ISSUE_MOD:ModConfigInit()
 	end
 end
 
+-------------------
+
+-------------
+--Save Data--
+-------------
+
 --Saves all option data in JSON format
 function SKILL_ISSUE_MOD:SaveGame()
 	SKILL_ISSUE_MOD.SAVE_STATE.ChanceSettings = {}
@@ -205,7 +211,7 @@ function SKILL_ISSUE_MOD:OnGameStart(isSave)
     end
 end
 
------------------------------------------
+-------------
 
 --------------------
 --Helper Functions--

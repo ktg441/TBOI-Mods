@@ -59,6 +59,8 @@ SKILL_ISSUE_MOD.SUB_TEXT = {
 	"Dang, that was super avoidable",
 	"You should really feel ashamed",
 	"I could do better with a blindfold on",
+	"Mad?",
+	"That was hilarious",
 }
 
 ---------------------
@@ -140,23 +142,32 @@ function SKILL_ISSUE_MOD:ModConfigInit()
 				}
 			)
 			
-			-- Because we're epic programmers, just loop through all our keys for the various percentages
-			for percentSettingName, _ in pairs(SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS) do
+			--Because pairs doesn't run through arrays in order, need to create a sorted list
+			local orderedPercentageSettings = {}
+			
+			--Add our settings to an index-based array
+			for key, val in pairs(SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS) do
+				table.insert(orderedPercentageSettings, {key = key, value = val})
+			end
+			table.sort(orderedPercentageSettings, function(o1, o2) return o1.key < o2.key end) -- Sort based on alphabet
+			
+			-- Because we're epic programmers, just loop through all our sorted keys for the various percentages settings
+			for _, percentSettingPair in ipairs(orderedPercentageSettings) do -- Throw out key, value will contain key/value pair with our setting name/saved value
 				ModConfigMenu.AddSetting(modName, percentSettingsSection,
 					{
 						Type = ModConfigMenu.OptionType.NUMBER,
 						CurrentSetting = function ()
-							return SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)]
+							return SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingPair.key)]
 						end,
 						Minimum = 0,
 						Maximum = 100,
 						Display = function()
-							return tostring(percentSettingName) .. " % : " .. SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)]
+							return tostring(percentSettingPair.key) .. " % : " .. SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingPair.key)]
 						end,
 						OnChange = function(newVal)
-							SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingName)] = newVal
+							SKILL_ISSUE_MOD.PERCENTAGE_INFO_SETTINGS[tostring(percentSettingPair.key)] = newVal
 						end,
-						Info = {"Chance that the Skill Issue text will show up when hit by an item in the " .. tostring(percentSettingName) .. " category."},
+						Info = {"Chance that the Skill Issue text will show up when hit by an item in the " .. tostring(percentSettingPair.key) .. " category."},
 					}
 				)
 			end

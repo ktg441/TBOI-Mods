@@ -61,6 +61,50 @@ SKILL_ISSUE_MOD.SUB_TEXT = {
 	"I could do better with a blindfold on",
 	"Mad?",
 	"That was hilarious",
+	"Have you considered a tutorial... or two?",
+	"Skill diff, not game diff",
+	"Bro, the enemy AI is celebrating",
+	"Press F for your ego",
+	"Your controller disconnected, right? No? Oh...",
+	"Are you speedrunning the worst possible playthrough?",
+	"Even RNG can’t save you now",
+	"Keyboard not plugged in? Oh wait, it is...",
+	"That’s some main character energy… of a tutorial NPC",
+	"It’s okay, losing builds character. Lots and lots of character",
+	"You put the fun in fundamentally unskilled",
+	"Congratulations, you’ve unlocked the L! Wear it proudly",
+	"Are you farming bad clips for content?",
+	"Just ask the boss to go easy on you next time",
+	"Imagine losing to yourself. Couldn’t be me",
+	"Skill issues this big should be a medical condition",
+	"Imagine paying full price just to lose like this",
+	"You died so fast the game’s still buffering",
+	"Did you trip over your own thumbs?",
+	"Even bots are embarrassed for you",
+	"The game called—said it wants its difficulty slider back",
+	"Is this your first time holding a controller?",
+	"You’re making the tutorial jealous",
+	"You play like lag is a feature",
+	"Try turning your monitor on next time",
+	"The boss isn’t even trying anymore",
+	"Are you practicing for a blooper reel?",
+	"You could dodge a parked car at this rate",
+	"It’s called dodging — look into it",
+	"You’re a content creator’s dream",
+	"Were you aiming for that fail?",
+	"Have you considered taking up knitting instead?",
+	"Even button-mashing would have been better",
+	"You’re giving speedrunners anxiety",
+	"Your enemies probably feel bad for you",
+	"This could be studied as an example of what not to do",
+	"Congratulations, you just invented a new low score",
+	"That wasn’t unlucky, that was just sad",
+	"The floor was your real opponent all along",
+	"Consider uninstalling — it's for the greater good",
+	"Your hitbox deserves better than this",
+	"Even a coin flip wouldn’t go your way",
+	"That was so bad, the developers probably cringed",
+	"The respawn timer is getting tired of you",
 }
 
 ---------------------
@@ -238,7 +282,7 @@ function SKILL_ISSUE_MOD:ConvertEntityTypeToHumanReadableKey(entityType)
 		key = "Lasers"
 	elseif entityType == 9 then
 		key = "Blood Projectiles"
-	elseif entityType >= 10 and entityType <= 970 then -- 970 is latest known enemy entity type as of update 1.7.5
+	elseif entityType >= 10 and entityType <= 970 then -- 970 is latest known enemy entity type as of update 1.9.7.6
 		key = "Enemies"
 	end
 		
